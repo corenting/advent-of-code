@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Day 4 (dotnet-script)",
+        "type": "coreclr",
+        "request": "launch",
+        "program": "${env:HOME}/.dotnet/tools/dotnet-script",
+        "args": ["${file}"],
+        "windows": {
+          "program": "${env:USERPROFILE}/.dotnet/tools/dotnet-script.exe",
+        },
+        "cwd": "${workspaceFolder}/day_4",
+        "stopAtEntry": true,
+      }
+    ]
+  }
