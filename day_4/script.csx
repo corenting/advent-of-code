@@ -33,11 +33,71 @@ var requiredFields = new string[] {
     "ecl",
     "pid",
 };
-var validPassports = 0;
+var validPassports = new List<Dictionary<string, string>>();
+var validPassportsCount = 0;
 foreach (var passport in passports) {
     if (requiredFields.Intersect(passport.Keys).Count() == requiredFields.Count()) {
-        validPassports += 1;
+        validPassportsCount += 1;
+        validPassports.Add(passport);
     }
 }
+Console.WriteLine($"Valid passports (part 1): {validPassportsCount}");
 
-Console.WriteLine($"Valid passports (part 1): {validPassports}");
+// Part 2
+var validPassportsCountPart2 = 0;
+foreach (var passport in validPassports) {
+    var allFieldsValid = true;
+    foreach (var (key, value) in passport) {
+        bool valid = false;
+        switch(key)
+        {
+            case "byr":
+                var byr = int.Parse(value);
+                valid = byr >= 1920 && byr <= 2002;
+                break;
+            case "iyr":
+                var iyr = int.Parse(value);
+                valid = iyr >= 2010 && iyr <= 2020;
+                break;
+            case "eyr":
+                var eyr = int.Parse(value);
+                valid = eyr >= 2020 && eyr <= 2030;
+                break;
+            case "hgt":
+                var min = value.Contains("cm") ? 150 : 59;
+                var max = value.Contains("cm") ? 193 : 76;
+                var hgt = int.Parse(value.Replace("cm", "").Replace("in", ""));
+                valid = hgt >= min && hgt <= max;
+                break;
+            case "hcl":
+                var hclRegex = new Regex(@"#[0-9a-f]{6}");
+                valid = hclRegex.IsMatch(value);
+                break;
+            case "ecl":
+                var validEcl = new string[] {
+                    "amb",
+                    "blu",
+                    "brn",
+                    "gry",
+                    "grn",
+                    "hzl",
+                    "oth",
+                };
+                valid = validEcl.Contains(value);
+                break;
+            case "pid":
+                var pidRegex = new Regex(@"^\d{9}$");
+                valid = pidRegex.IsMatch(value);
+                break;
+            case "cid":
+                valid = true;
+                break;
+        }
+        if (!valid) {
+            allFieldsValid = false;
+            break;
+        }
+    }
+    validPassportsCountPart2 += allFieldsValid ? 1 : 0;
+}
+Console.WriteLine($"Valid passports (part 2): {validPassportsCountPart2}");
