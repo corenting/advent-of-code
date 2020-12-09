@@ -10,6 +10,14 @@
       "cwd": "${workspaceFolder}/day_8",
     },
     {
+      "name": "Day 9 (Python)",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/day_9",
+    },
+    {
       "name": "Day 4 (dotnet-script)",
       "type": "coreclr",
       "request": "launch",
