@@ -32,7 +32,8 @@ func modulo(a int, b int) int {
 func main() {
 	lines := getInputLines()
 	currentPos := 50
-	password := 0
+	passwordStep1 := 0
+	passwordStep2 := 0
 
 	for i := range lines {
 		currentLine := lines[i]
@@ -45,17 +46,35 @@ func main() {
 			panic(err)
 		}
 
-		fmt.Printf("Currently at %d, steps is : %d\n", currentPos, steps)
 		stepDir := 1
+		numberOfZeroEncounters := 0
+		// For the left
 		if direction == "L" {
 			stepDir = -1
+
+			if steps >= currentPos {
+				if currentPos != 0 {
+					numberOfZeroEncounters = ((steps - currentPos) / 100) + 1
+				} else {
+					numberOfZeroEncounters = ((steps - currentPos) / 100)
+				}
+			}
+		} else {
+			numberOfZeroEncounters = ((currentPos + steps) / 100)
 		}
 		currentPos = modulo(currentPos+(stepDir*steps), 100)
 
+		// Compute password for step 1
 		if currentPos == 0 {
-			password += 1
+			passwordStep1 += 1
+		}
+
+		// Check for wrapping for part 2
+		if numberOfZeroEncounters > 0 {
+			passwordStep2 += numberOfZeroEncounters
 		}
 	}
 
-	fmt.Printf("Password (step 1): %d\n", password)
+	fmt.Printf("Password (step 1): %d\n", passwordStep1)
+	fmt.Printf("Password (step 2): %d\n", passwordStep2)
 }
