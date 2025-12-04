@@ -14,15 +14,17 @@ for current_range in ranges:
     for i in range(start_number, end_number + 1):
 
         num_as_str = str(i)
+        len_num = len(num_as_str)
 
         current_size = 1
-        while current_size < len(num_as_str):
-            mini_batch = [i for i in batched(num_as_str, current_size)]
-            len_batch = len(mini_batch)
+        sizes_to_check = [current for current in range(1, len_num ) if len_num % current == 0]
+        for current_size in sizes_to_check:
+            mini_batch = list(batched(num_as_str, current_size))
+            #print(f"Num is {i}, {mini_batch = }, {current_size = }")
+
             if all(x == mini_batch[0] for x in mini_batch):
                 total_step2 += i
                 break
-            current_size += 1
 
 
 print(f"Step 2: {total_step2}")
