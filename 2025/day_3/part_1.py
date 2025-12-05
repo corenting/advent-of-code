@@ -18,11 +18,10 @@ for bank in lines:
         if current_count == 0:
             nums_slice = nums[:-1]
         else:
-            nums_slice = nums[prev_idx:]
+            nums_slice = nums[prev_idx + 1:]
 
         max_value = max(nums_slice)
         max_index = nums.index(max_value)
-        nums[max_index] = -10000
         my_digits.append(max_value)
         current_count += 1
         prev_idx = max_index
